@@ -173,10 +173,47 @@ program
 
 program
   .command('dev')
-  .description('Start development server (coming soon)')
-  .action(() => {
-    console.log(chalk.yellow('Development server not yet implemented'));
-    console.log('This feature will be available in Phase 2 of the modernization plan');
+  .description('Start development server with hot-reload')
+  .option('-p, --port <number>', 'Port to run server on', '3000')
+  .option('-h, --host <string>', 'Host to bind server to', 'localhost')
+  .option('--no-open', 'Do not open browser automatically')
+  .option('--no-watch', 'Disable file watching')
+  .option('-v, --verbose', 'Enable verbose logging', false)
+  .action(async (options) => {
+    const logger = new Logger({ 
+      level: options.verbose ? LogLevel.DEBUG : LogLevel.INFO 
+    });
+
+    try {
+      const buildConfig: BuildConfig = {
+        outputDir: process.cwd(),
+        templatesDir: path.join(process.cwd(), '_build', 'templates'),
+        customDir: path.join(process.cwd(), '_build', 'custom'),
+        logoDir: path.join(process.cwd(), '_logo'),
+        concurrency: os.cpus().length,
+        enableCache: true,
+        skipExisting: false
+      };
+
+      // Import DevServer here to avoid circular dependency issues
+      const { DevServer } = await import('../services/DevServer.js');
+      
+      const serverConfig = {
+        port: parseInt(options.port) || 3000,
+        host: options.host || 'localhost',
+        openBrowser: options.open !== false,
+        watchFiles: options.watch !== false
+      };
+
+      const devServer = new DevServer(buildConfig, serverConfig, logger);
+      
+      logger.info(`Starting development server on ${serverConfig.host}:${serverConfig.port}...`);
+      await devServer.start();
+      
+    } catch (error: any) {
+      logger.error('Failed to start development server', error);
+      process.exit(1);
+    }
   });
 
 // Error handling
