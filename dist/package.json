@@ -1,0 +1,71 @@
+{
+  "name": "attogram-games-improved",
+  "version": "2.0.0",
+  "description": "Modern games website builder - open source web games collection with TypeScript build system",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && node scripts/copy-assets.js",
+    "dev": "tsx watch src/cli/index.ts",
+    "start": "node dist/cli/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "docker:build": "docker build -t attogram-games .",
+    "docker:run": "docker run -p 3000:3000 attogram-games"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TIGMK23/games-improved.git"
+  },
+  "keywords": [
+    "games",
+    "web-games",
+    "open-source",
+    "html5",
+    "typescript",
+    "build-system"
+  ],
+  "author": "Attogram Games Contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TIGMK23/games-improved/issues"
+  },
+  "homepage": "https://github.com/TIGMK23/games-improved#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "fs-extra": "^11.1.1",
+    "p-limit": "^5.0.0",
+    "zod": "^3.22.4",
+    "handlebars": "^4.7.8",
+    "sharp": "^0.32.6",
+    "simple-git": "^3.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/fs-extra": "^11.0.2",
+    "@types/jest": "^29.5.5",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.1",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2"
+  }
+}
